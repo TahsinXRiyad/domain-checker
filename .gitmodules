@@ -1,6 +1,4 @@
 [submodule "domain-checker"]
 	path = domain-checker
 	url = https://github.com/TahsinXRiyad/domain-checker.git
-Subproject commit ff4cd8401990f603661dc3a2c0daf40d354b56f7
-
 
