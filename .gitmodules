@@ -1,0 +1,3 @@
+[submodule "domain-checker"]
+	path = domain-checker
+	url = https://github.com/TahsinXRiyad/domain-checker.git
