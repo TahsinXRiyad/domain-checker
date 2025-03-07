@@ -1,10 +1,15 @@
 from flask import Flask, render_template, request, jsonify
 import requests
+from dotenv import load_dotenv
+import os
 
 app = Flask(__name__)
 
-# Replace with your API Key
-API_KEY = "bfNv53FlQEC_kEXc4moDow"
+# Load environment variables
+load_dotenv()
+
+# Replace with your API Key from .env file
+API_KEY = os.getenv("API_KEY")
 API_URL = "https://jsonwhoisapi.com/api/v1/whois?identifier={}"
 
 @app.route('/')
@@ -16,7 +21,7 @@ def check_domain():
     domain = request.args.get('domain')
     if not domain:
         return jsonify({"error": "Please provide a domain."}), 400
-    
+
     try:
         headers = {'Authorization': f'Bearer {API_KEY}'}
         response = requests.get(API_URL.format(domain), headers=headers)
@@ -38,7 +43,7 @@ def check_domain():
             "owner": owner
         })
     except Exception as e:
-        return jsonify({"error": "Failed to fetch domain info."}), 500
+        return jsonify({"error": f"Failed to fetch domain info: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

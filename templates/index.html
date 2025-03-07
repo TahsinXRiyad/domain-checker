@@ -4,32 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Domain Checker</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h2>Check Domain Availability</h2>
-        <input type="text" id="domain" placeholder="Enter domain name (e.g. example.com)">
-        <button onclick="checkDomain()">Check</button>
-        <p id="result"></p>
-    </div>
+    <h1>Domain Checker</h1>
+    <form id="domainForm">
+        <input type="text" id="domain" placeholder="Enter domain" required>
+        <button type="submit">Check</button>
+    </form>
+
+    <div id="result"></div>
 
     <script>
-        function checkDomain() {
-            let domain = document.getElementById('domain').value;
+        document.getElementById('domainForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const domain = document.getElementById('domain').value;
             fetch(`/check-domain?domain=${domain}`)
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('result').innerHTML = `
-                        <strong>Domain:</strong> ${data.domain} <br>
-                        <strong>Status:</strong> ${data.availability} <br>
-                        <strong>Expiration Date:</strong> ${data.expiration_date} <br>
-                        <strong>Owner:</strong> ${data.owner}
-                    `;
-                }).catch(error => {
-                    document.getElementById('result').innerText = "Error fetching domain info.";
+                    if (data.error) {
+                        document.getElementById('result').innerHTML = `<p>Error: ${data.error}</p>`;
+                    } else {
+                        document.getElementById('result').innerHTML = `
+                            <p>Domain: ${data.domain}</p>
+                            <p>Availability: ${data.availability}</p>
+                            <p>Expiration Date: ${data.expiration_date}</p>
+                            <p>Owner: ${data.owner}</p>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
                 });
-        }
+        });
     </script>
 </body>
 </html>
+
