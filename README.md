@@ -24,5 +24,10 @@ This is a simple Flask-based domain checker that allows users to check domain av
     python app.py
     ```
 
+    # domain-checker
+>>>>>>> ff4cd8401990f603661dc3a2c0daf40d354b56f7
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
