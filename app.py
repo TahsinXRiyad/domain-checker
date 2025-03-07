@@ -3,9 +3,9 @@ import requests
 
 app = Flask(__name__)
 
-# Replace with your API Key (or use a free WHOIS API)
-API_KEY = "your_api_key_here"
-API_URL = "https://jsonwhoisapi.com/api/v1/whois?identifier={}" 
+# Replace with your API Key
+API_KEY = "bfNv53FlQEC_kEXc4moDow"
+API_URL = "https://jsonwhoisapi.com/api/v1/whois?identifier={}"
 
 @app.route('/')
 def index():
@@ -20,6 +20,11 @@ def check_domain():
     try:
         headers = {'Authorization': f'Bearer {API_KEY}'}
         response = requests.get(API_URL.format(domain), headers=headers)
+        
+        # Checking if the response is successful
+        if response.status_code != 200:
+            return jsonify({"error": f"Failed to fetch domain info. Status code: {response.status_code}"}), 500
+        
         data = response.json()
         
         expiration_date = data.get('expires', 'Not Available')
